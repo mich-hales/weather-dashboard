@@ -20,15 +20,22 @@
     <main >
             <section class="search col col-4">
                 <h3 class="city-search">Search for a City:</h3>
+                <form class="d-flex flex-column">
+                    <input type="text" class="rounded-lg p-2 m-1" placeholder="Salt Lake City">
+                    <button type="submit" class="submit-button btn rounded-lg m-1">Search</button>
+                    <div class="search-results-container"></div>
+                </form>
             </section>
         
             <section class="col section-2">
                 <div class="featured-city row col-12">
                     <h3 class="featured-city-header">Enter Featured City Here</h3>
+                    <div class="featured-city-container"></div>
                 </div>
                 
                 <div class="five-day-forecast row col-12">
                     <h3 class="5-day-forecast-header">5 Day Forecast</h3>
+                    <div class="5-day-forecast-container"></div>
                 </div>
             </section>    
     </main>
