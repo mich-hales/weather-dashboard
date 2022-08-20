@@ -78,10 +78,12 @@ i {
     background-color: var(--light-blue);
 }
 
+/* to hide elements */
 .hide {
     display: none;
 }
 
+/* search history styling */
 .list-styling {
     list-style: none;
     margin: 10px;
