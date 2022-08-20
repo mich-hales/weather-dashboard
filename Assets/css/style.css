@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --body-font: 'Montserrat', sans-serif;
+    --dark-purple: rgb(49,37,90);
+    --light-blue: rgb(143,224,255);
+    --med-blue: rgb(117,180,227);
+    --med-purple: rgb(84,65,109);
+    --dark-blue: rgb(9, 68, 121);
+}
+
+body {
+    font-family: var(--body-font);
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.weather-heading {
+    background-color: var(--dark-purple);
+    color: white;
+    text-align: center;
+    padding: 40px;
+    font-weight: bold;
+}
+
+.grid-layout {
+    background-color: pink;
+}
+
+.search {
+    background-color: var(--med-blue);
+    margin: 20px;
+    padding: 10px;
+}
+
+.city-search {
+    font-weight: bold;
+    padding: 10px;
+}
+
+.featured-city {
+    background-color: var(--light-blue);
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.five-day-forecast {
+    background-color: var(--dark-blue);
+    padding: 10px;
+    color: white;
+}
+
+.section-2 {
+    margin: 20px;
+}
