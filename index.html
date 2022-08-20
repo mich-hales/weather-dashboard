@@ -9,38 +9,44 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/fcd2b6e882.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./Assets/css/style.css">
 </head>
 <body>
+    <!-- Weather Dashboard Header -->
     <header>
-        <h1 class="weather-heading">Weather Dashboard</h1>
+        <h1 class="weather-heading"><i class="fa-solid fa-cloud-sun mx-3"></i>Weather Dashboard</h1>
     </header>
 
 
     <main >
-            <section class="search col col-4">
+            <!-- Search for a city section -->
+            <section class="search col col-4 rounded-lg">
                 <h3 class="city-search">Search for a City:</h3>
-                <form class="d-flex flex-column">
-                    <input type="text" class="rounded-lg p-2 m-1" placeholder="Salt Lake City">
+                <form class="d-flex flex-column search-form">
+                    <input type="text" class="rounded-lg p-2 m-1 input-city-element" placeholder="Salt Lake City">
                     <button type="submit" class="submit-button btn rounded-lg m-1">Search</button>
                     <div class="search-results-container"></div>
                 </form>
             </section>
         
+         
             <section class="col section-2">
-                <div class="featured-city row col-12">
+                <!-- The featured city will appear here -->
+                <div class="featured-city row col-12 rounded-lg">
                     <h3 class="featured-city-header">Enter Featured City Here</h3>
                     <div class="featured-city-container"></div>
                 </div>
                 
-                <div class="five-day-forecast row col-12">
+                <!-- Five day forecast will appear here -->
+                <div class="five-day-forecast row col-12 rounded-lg">
                     <h3 class="5-day-forecast-header">5 Day Forecast</h3>
                     <div class="5-day-forecast-container"></div>
                 </div>
             </section>    
     </main>
 
-
+    <!-- links to javascript -->
     <script src="./Assets/js/script.js"></script>
 </body>
 </html>

@@ -46,6 +46,10 @@ main {
     padding: 10px;
 }
 
+i {
+    color: white;
+}
+
 .featured-city {
     background-color: var(--light-blue);
     margin-bottom: 20px;
