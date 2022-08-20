@@ -7,9 +7,9 @@ let fiveDayForecastContainer = document.querySelector('.five-day-forecast-contai
 
 
 // When button is clicked, the api will search the searched city 
-searchButton.addEventListener('click', function() {
+searchButton.addEventListener('submit', function() {
     var citySearched = cityInputEl.value.trim();
-    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&limit=5&appid=d277d11a67875138e278bf921f539c35'
+    var apiUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySearched + '&limit=5&appid=d277d11a67875138e278bf921f539c35'
     
     fetch(apiUrl)
         .then(response => response.json())
