@@ -83,22 +83,36 @@ const displayWeather = function (city) {
     // temperature
     let temperature = document.createElement('p');
     temperature.classList.add('current-temperature');
-    temperature.textContent = 'Temperature: ' + city.main.temp + '°F';
+    // temperature.textContent = 'Temperature: ' + city.main.temp + '°F';
+    temperature.textContent = 'Temperature: ' + city.current.temp.toFixed(1) + '°F';
     featuredCityContainer.appendChild(temperature);
 
     // humidity
     let humidity = document.createElement('p');
     humidity.classList.add('humidity');
-    humidity.textContent = 'Humidity: ' + city.main.humidity + '%';
+    // humidity.textContent = 'Humidity: ' + city.main.humidity + '%';
+    humidity.textContent = 'Humidity: ' + city.current.humidity + '%';
     featuredCityContainer.appendChild(humidity);
 
     // wind
     let wind = document.createElement('p');
-    wind.textContent = 'Wind Speed: ' + city.wind.speed + 'MPH';
+    // wind.textContent = 'Wind Speed: ' + city.wind.speed + 'MPH';
+    wind.textContent = 'Wind Speed: ' + city.current.wind_speed + 'MPH';
     featuredCityContainer.appendChild(wind);
 
     // uv-index
     let uvIndex = document.createElement('p');
+    let uvIndexVal = city.current.uvi.toFixed(1);
+    if (uvIndexVal >= 0) {
+        uvIndex.classList.add('uv-green');
+    } else if (uvIndexVal >=3) {
+        uvIndex.classList.add('uv-yellow');
+    } else if (uvIndexVal >= 8) {
+        uvIndex.classList.add('uv-green');
+    }
+    uvIndex.innerHTML = 'UV Index: <span>' + uvIndexVal + '</span>';
+    featuredCityContainer.appendChild(uvIndex);
+
     // uvindex is deprecated . . . and one call requires a paid subscription ?? 
     // tried subscribing to the onecall api and it still isn't working . . . ???
 
