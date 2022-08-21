@@ -50,7 +50,42 @@ fetch(apiUrl).then(function (response) {
     var date = moment().format('MM/DD/YYYY');
     currentDate.textContent = date;
 
+
+    // new openweather api requires longitutde and latitude... returning the fetch request from obtained coordinates
+    return fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35')
 })
+.then(function(response) {
+    return response.json()
+    .then (function (data) {
+        console.log(data);
+        displayWeather(data);
+    })
+})
+
+// display weather 
+const displayWeather = function (city) {
+
+    // temperature
+    let temperature = document.createElement('p');
+    temperature.classList.add('current-temperature');
+    temperature.textContent = 'Temperature: ' + city.main.temp + '°F';
+    featuredCityContainer.appendChild(temperature);
+
+    // humidity
+    let humidity = document.createElement('p');
+    humidity.classList.add('humidity');
+    humidity.textContent = 'Humidity: ' + city.main.humidity + '%';
+    featuredCityContainer.appendChild(humidity);
+
+    // wind
+    let wind = document.createElement('p');
+    wind.textContent = 'Wind Speed: ' + city.wind.speed + 'MPH';
+    featuredCityContainer.appendChild(wind);
+
+    // uv-index
+    let uvIndex = document.createElement('p');
+
+}
 
 
 
