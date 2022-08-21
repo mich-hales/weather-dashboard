@@ -65,6 +65,10 @@ fetch(apiUrl).then(function (response) {
 // display weather 
 const displayWeather = function (city) {
 
+    let displayedCity = document.querySelector('.featured-city-header')
+    // change the name to featured city
+    displayedCity.textContent = city.name;
+
     // temperature
     let temperature = document.createElement('p');
     temperature.classList.add('current-temperature');
@@ -84,6 +88,8 @@ const displayWeather = function (city) {
 
     // uv-index
     let uvIndex = document.createElement('p');
+    // uvindex is deprecated . . . and one call requires a paid subscription ?? 
+
 
 }
 
