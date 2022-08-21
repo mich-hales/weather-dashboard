@@ -5,7 +5,7 @@ let searchResultsContainer = document.querySelector('.search-results-container')
 let featuredCityContainer = document.querySelector('.featured-city-container');
 let fiveDayForecastContainer = document.querySelector('.five-day-forecast-container');
 let clearHistory = document.querySelector('#clear-history');
-let searchHistory = document.querySelector('.search-history');
+let searchHistoryList = document.querySelector('.search-history');
 
 
 // When button is clicked, the api will search the searched city 
@@ -139,6 +139,38 @@ const displayWeather = function (city) {
 }
 
 
+
+var searchHistory = [];
+// save search history 
+let formSubmitHandler = function (event) {
+    event.preventDefault();
+
+    // the user input / searched city
+    var city = cityInputEl.value.trim();
+
+    // local storage
+    if (city) {
+        searchHistory.push(city);
+        localStorage.setItem('Search History:', JSON.stringify(searchHistory));
+        let searchHistoryBtn = document.createElement('button');
+        searchHistoryBtn.classList.add('search-history-buttons');
+        searchHistoryBtn.setAttribute('data-city', city);
+        searchHistoryBtn.textContent = city;
+        searchHistoryList.appendChild(searchHistoryBtn);
+        // display searched city's info
+        displayWeather(city);
+        // resets search container back to empty
+        cityInputEl.value = '';
+    } else {
+        alert('Enter a City Name');
+    }
+}
+
+
+// show history of searched cities
+let showHistory = function() {
+    
+}
 
 
 
