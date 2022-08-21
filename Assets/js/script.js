@@ -11,7 +11,7 @@ let searchHistoryList = document.querySelector('.search-history');
 var currentDate = document.querySelector('.current-date');
 var citySearched = cityInputEl.value.trim();
 var apiKey = '300ba1bc4c70b9982f60158a745b8368';
-var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=denver&units=imperial&appid=d277d11a67875138e278bf921f539c35'
+var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=denver&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
     
 fetch(apiUrl).then(function (response) {
     return response.json()
@@ -40,7 +40,7 @@ fetch(apiUrl).then(function (response) {
     //     mode: "no-cors",
     // };
     
-    return fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude + '&units=imperial&appid=d277d11a67875138e278bf921f539c35')
+    return fetch('https://api.openweathermap.org/data/3.0/onecall?lat=' + latitude + '&lon=' + longitude + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368')
 })
 .then(function(response) {
     return response.json()

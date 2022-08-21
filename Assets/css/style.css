@@ -84,24 +84,29 @@ i {
 }
 
 /* search history styling */
-.list-styling {
+.search-history-buttons {
     list-style: none;
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
     color: white;
     font-weight: bold;
+    width: 200px;
     background-color: var(--med-blue);
 }
 
 
+
+/* 
 .current-temperature {
 
 }
 
 .humidity {
 
-}
+} */
+
+
 
 /* UV index styling */
 .uv-green {
@@ -114,8 +119,4 @@ i {
 
 .uv-red {
     background: red;
-}
-
-.search-history-buttons {
-    
 }
