@@ -102,20 +102,27 @@ const displayWeather = function (city) {
     // uvindex is deprecated . . . and one call requires a paid subscription ?? 
     // tried subscribing to the onecall api and it still isn't working . . . ???
 
-    var dailyForecast = city.main;
+    var dailyForecast = city.daily;
     var today = new Date();
 
     // // 5 day forecast 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < dailyForecast.length; i++) {
+        // displays date -- for the next 5 days
         var date = (today.getMonth() + 1) + '/' + (today.getDate() + i + 1) + '/' + today.getFullYear();
-        
-        var dayDis = document.createElement('p');
-        fiveDayForecastContainer.textContent = 'Date:';
-        // main.humidity && main.temp
-    }
-
+        // retrieves info to get icon for current weather condition
+        var icon = dailyForecast[i].weather[0].icon;
+        // displays icon for current condition (URL is http://openweathermap.org/img/wn/10d@2x.png -- example code on openweather to retrieve icons)
+        var showIcon = "<img src='http://openweathermap.org/img/wn/" + icon + "@2x.png'/>"
+        var displayElement = document.createElement('div');
+        displayElement.innerHTML = '<p>' + date + '</p>' +
+            '<p>' + showIcon +'</p>' +
+            '<p>Temp: ' + dailyForecast[i].temp.day.toFixed(1) + '°F</p>' +
+            '<p>Humidity: ' + dailyForecast[i].humidity + '%</p>' +
+            '<p>Wind: ' + dailyForecast[i].wind_speed +'MPH</p>' 
+        // append to page
+        fiveDayForecastContainer.appendChild(displayElement); 
+    }  
 }
-
 
 
 
