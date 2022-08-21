@@ -8,29 +8,6 @@ let clearHistory = document.querySelector('#clear-history');
 let searchHistoryList = document.querySelector('.search-history');
 
 
-// When button is clicked, the api will search the searched city 
-// searchButton.addEventListener('submit', function() {
-//     var citySearched = cityInputEl.value.trim();
-//     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=d277d11a67875138e278bf921f539c35'
-    
-//     // fetch request to get latitute and longitude of city searched
-//     fetch(apiUrl).then(function (response) {
-//         response.json()
-//         console.log(response.json());
-//     })
-//     .then(function (data) {
-//         console.log(data)
-
-//         // latitude and longitude coordinates of the city searched
-//         // let latitude = response.coord.lat;
-//         // let longitude = response.coord.lon;
-
-//         // 
-//     })
-
-  
-// })
-
 var currentDate = document.querySelector('.current-date');
 var citySearched = cityInputEl.value.trim();
 var apiKey = '300ba1bc4c70b9982f60158a745b8368';
@@ -185,3 +162,22 @@ let showHistory = function() {
 }
 
 
+// if a button in search history is clicked, the weather of that city will display from the local storage
+let historyButtonSearch = function (event) {
+    let city = event.target.getAttribute('data-city');
+    if (city) {
+        displayWeather(city);
+    }
+}
+
+// clear search history
+let clearHistoryButton = function (event) {
+    localStorage.removeItem('search-history');
+}
+
+
+// call functions when items are clicked
+searchButton.addEventListener('submit', formSubmitHandler);
+clearHistory.addEventListener('click', clearHistoryButton);
+searchHistoryList.addEventListener('click', historyButtonSearch);
+loadHistory();
