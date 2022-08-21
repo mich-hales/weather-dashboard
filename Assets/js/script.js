@@ -139,7 +139,7 @@ const displayWeather = function (city) {
 }
 
 
-
+// array for search history
 var searchHistory = [];
 // save search history 
 let formSubmitHandler = function (event) {
@@ -151,7 +151,7 @@ let formSubmitHandler = function (event) {
     // local storage
     if (city) {
         searchHistory.push(city);
-        localStorage.setItem('Search History:', JSON.stringify(searchHistory));
+        localStorage.setItem('search-history', JSON.stringify(searchHistory));
         let searchHistoryBtn = document.createElement('button');
         searchHistoryBtn.classList.add('search-history-buttons');
         searchHistoryBtn.setAttribute('data-city', city);
@@ -169,27 +169,19 @@ let formSubmitHandler = function (event) {
 
 // show history of searched cities
 let showHistory = function() {
-    
+    searchHistory = JSON.parse(localStorage.getItem('search-history'));
+   
+    if (searchHistory) {
+        searchHistory = JSON.parse(localStorage.getItem('search-history'));
+        
+        for (let i = 0; i < searchHistory.length; i++) {
+            let searchHistoryBtn = document.createElement('button');
+            searchHistoryBtn.classList.add('search-history-buttons');
+            searchHistoryBtn.setAttribute('data-city', searchHistory[i]);
+            searchHistoryBtn.textContent = searchHistory[i];
+            searchHistoryList.appendChild(searchHistoryBtn);
+        }
+    }
 }
 
 
-
-// testing list function
-
-// // when text is input (key add event listener)
-
-
-// fetch(apiUrl)
-// .then(response => response.json())
-// .then(data => console.log(data))
-
-// .catch(err => alert('Invalid city name'));    
-
-
-// // the searched city will pop up on the page when search button is clicked
-// var listItem = document.createElement('li');
-// listItem.classList.add('list-styling');
-// searchHistory.appendChild(listItem);
-// listItem.textContent = 'testing testing'
-
-// console.log('help')
