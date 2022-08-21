@@ -33,6 +33,7 @@ let searchHistory = document.querySelector('.search-history');
 
 var currentDate = document.querySelector('.current-date');
 var citySearched = cityInputEl.value.trim();
+var apiKey = '300ba1bc4c70b9982f60158a745b8368';
 var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=denver&units=imperial&appid=d277d11a67875138e278bf921f539c35'
     
 fetch(apiUrl).then(function (response) {
@@ -50,9 +51,19 @@ fetch(apiUrl).then(function (response) {
     var date = moment().format('MM/DD/YYYY');
     currentDate.textContent = date;
 
-
     // new openweather api requires longitutde and latitude... returning the fetch request from obtained coordinates
-    return fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35')
+    // https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key} -- new onecall api after subscribing -- needed for uv index.
+    // 'https://api.openweathermap.org/data/3.0/onecall?lat=' + latitude + '&lon=' + longitude + '&units=imperial&appid=d277d11a67875138e278bf921f539c35'
+    // 'https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35'
+    
+
+    // by declaring the content-type: application/json, hoping api will work
+    // const options = {
+    //     headers: new Headers({"content-type": "application/json"}),
+    //     mode: "no-cors",
+    // };
+    
+    return fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude + '&units=imperial&appid=d277d11a67875138e278bf921f539c35')
 })
 .then(function(response) {
     return response.json()
@@ -89,7 +100,19 @@ const displayWeather = function (city) {
     // uv-index
     let uvIndex = document.createElement('p');
     // uvindex is deprecated . . . and one call requires a paid subscription ?? 
+    // tried subscribing to the onecall api and it still isn't working . . . ???
 
+    var dailyForecast = city.main;
+    var today = new Date();
+
+    // // 5 day forecast 
+    for (let i = 0; i < 5; i++) {
+        var date = (today.getMonth() + 1) + '/' + (today.getDate() + i + 1) + '/' + today.getFullYear();
+        
+        var dayDis = document.createElement('p');
+        fiveDayForecastContainer.textContent = 'Date:';
+        // main.humidity && main.temp
+    }
 
 }
 
