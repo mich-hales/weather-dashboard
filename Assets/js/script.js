@@ -8,87 +8,129 @@ let clearHistory = document.querySelector('#clear-history');
 let searchHistoryList = document.querySelector('.search-history');
 
 
+// array for search history
+var searchHistory = [];
+// save search history 
+let formSubmitHandler = function (event) {
+    event.preventDefault();
+
+    // the user input / searched city
+    var citySearched = cityInputEl.value.trim();
+
+    // local storage
+    if (citySearched) {
+        searchHistory.push(citySearched);
+        localStorage.setItem('search-history', JSON.stringify(searchHistory));
+        let searchHistoryBtn = document.createElement('button');
+        searchHistoryBtn.classList.add('search-history-buttons');
+        searchHistoryBtn.setAttribute('data-city', citySearched);
+        searchHistoryBtn.textContent = citySearched;
+        searchHistoryList.appendChild(searchHistoryBtn);
+        // display searched city's info
+        weatherInfo(citySearched);
+        // resets search container back to empty
+        cityInputEl.value = '';
+    } else {
+        alert('Enter a City Name');
+    }
+}
+
+
 var currentDate = document.querySelector('.current-date');
-var citySearched = cityInputEl.value.trim();
+var currentWeatherIcon = docuemnt.querySelector('.featured-weather-icon');
+var displayedCity = document.querySelector('.featured-city-header')
+
+
 var apiKey = '300ba1bc4c70b9982f60158a745b8368';
-var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=denver&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
-    
-fetch(apiUrl).then(function (response) {
-    return response.json()
-})
-.then(function (data) {
-    console.log(data)
-
-    // longitude and latitude coordinates of the city searched
-    let longitude = data.coord.lon;
-    let latitude = data.coord.lat;
-
-    // variables
-    let city = data.name;
-    var date = moment().format('MM/DD/YYYY');
-    currentDate.textContent = date;
-
-    // new openweather api requires longitutde and latitude... returning the fetch request from obtained coordinates
-    // https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key} -- new onecall api after subscribing -- needed for uv index.
-    // 'https://api.openweathermap.org/data/3.0/onecall?lat=' + latitude + '&lon=' + longitude + '&units=imperial&appid=d277d11a67875138e278bf921f539c35'
-    // 'https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35'
+// 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
+var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
     
 
-    // by declaring the content-type: application/json, hoping api will work
-    // const options = {
-    //     headers: new Headers({"content-type": "application/json"}),
-    //     mode: "no-cors",
-    // };
+
+let weatherInfo = function(citySearched) {
+    fetch(apiUrl).then(function (cityResponse) {
+        return cityResponse.json()
+    })
+    .then(function (cityResponse) {
+        console.log(cityResponse)
     
-    return fetch('https://api.openweathermap.org/data/3.0/onecall?lat=' + latitude + '&lon=' + longitude + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368')
-})
-.then(function(response) {
-    return response.json()
-    .then (function (data) {
+        // longitude and latitude coordinates of the city searched
+        let longitude = data.coord.lon;
+        let latitude = data.coord.lat;
+    
+        // variables
+        let city = cityResponse.name;
+        var date = moment().format('MM/DD/YYYY');
+        // get weather icon
+        let weatherIcon = cityResponse.weather[0].icon;
+        let showIcon = "<img src='http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png'/>"
+
+        // displays city, date and icon on page
+        displayedCity.textContent = city.name;
+        currentDate.textContent = date;
+        currentWeatherIcon.textContent = showIcon;
+      
+
+        // new openweather api requires longitutde and latitude... returning the fetch request from obtained coordinates
+        // https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key} -- new onecall api after subscribing -- needed for uv index.
+        // 'https://api.openweathermap.org/data/3.0/onecall?lat=' + latitude + '&lon=' + longitude + '&units=imperial&appid=d277d11a67875138e278bf921f539c35'
+        // 'https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35'
+        
+    
+        // by declaring the content-type: application/json, hoping api will work
+        // const options = {
+        //     headers: new Headers({"content-type": "application/json"}),
+        //     mode: "no-cors",
+        // };
+        
+        return fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35')
+    })
+    .then(async function(response) {
+        const data = await response.json();
         console.log(data);
         displayWeather(data);
-    })
-})
+    });
+};
+
+
+
+
 
 // display weather 
 const displayWeather = function (city) {
 
-    let displayedCity = document.querySelector('.featured-city-header')
-    // change the name to featured city
-    displayedCity.textContent = city.name;
-
     // temperature
     let temperature = document.createElement('p');
     temperature.classList.add('current-temperature');
-    // temperature.textContent = 'Temperature: ' + city.main.temp + '°F';
-    temperature.textContent = 'Temperature: ' + city.current.temp.toFixed(1) + '°F';
+    temperature.textContent = 'Temperature: ' + city.main.temp + '°F';
+    // temperature.textContent = 'Temperature: ' + city.current.temp.toFixed(1) + '°F';
     featuredCityContainer.appendChild(temperature);
 
     // humidity
     let humidity = document.createElement('p');
     humidity.classList.add('humidity');
-    // humidity.textContent = 'Humidity: ' + city.main.humidity + '%';
-    humidity.textContent = 'Humidity: ' + city.current.humidity + '%';
+    humidity.textContent = 'Humidity: ' + city.main.humidity + '%';
+    // humidity.textContent = 'Humidity: ' + city.current.humidity + '%';
     featuredCityContainer.appendChild(humidity);
 
     // wind
     let wind = document.createElement('p');
-    // wind.textContent = 'Wind Speed: ' + city.wind.speed + 'MPH';
-    wind.textContent = 'Wind Speed: ' + city.current.wind_speed + 'MPH';
+    wind.textContent = 'Wind Speed: ' + city.wind.speed + 'MPH';
+    // wind.textContent = 'Wind Speed: ' + city.current.wind_speed + 'MPH';
     featuredCityContainer.appendChild(wind);
 
     // uv-index
-    let uvIndex = document.createElement('p');
-    let uvIndexVal = city.current.uvi.toFixed(1);
-    if (uvIndexVal >= 0) {
-        uvIndex.classList.add('uv-green');
-    } else if (uvIndexVal >=3) {
-        uvIndex.classList.add('uv-yellow');
-    } else if (uvIndexVal >= 8) {
-        uvIndex.classList.add('uv-green');
-    }
-    uvIndex.innerHTML = 'UV Index: <span>' + uvIndexVal + '</span>';
-    featuredCityContainer.appendChild(uvIndex);
+    // let uvIndex = document.createElement('p');
+    // let uvIndexVal = city.current.uvi.toFixed(1);
+    // if (uvIndexVal >= 0) {
+    //     uvIndex.classList.add('uv-green');
+    // } else if (uvIndexVal >=3) {
+    //     uvIndex.classList.add('uv-yellow');
+    // } else if (uvIndexVal >= 8) {
+    //     uvIndex.classList.add('uv-green');
+    // }
+    // uvIndex.innerHTML = 'UV Index: <span>' + uvIndexVal + '</span>';
+    // featuredCityContainer.appendChild(uvIndex);
 
     // uvindex is deprecated . . . and one call requires a paid subscription ?? 
     // tried subscribing to the onecall api and it still isn't working . . . ???
@@ -115,33 +157,6 @@ const displayWeather = function (city) {
     }  
 }
 
-
-// array for search history
-var searchHistory = [];
-// save search history 
-let formSubmitHandler = function (event) {
-    event.preventDefault();
-
-    // the user input / searched city
-    var city = cityInputEl.value.trim();
-
-    // local storage
-    if (city) {
-        searchHistory.push(city);
-        localStorage.setItem('search-history', JSON.stringify(searchHistory));
-        let searchHistoryBtn = document.createElement('button');
-        searchHistoryBtn.classList.add('search-history-buttons');
-        searchHistoryBtn.setAttribute('data-city', city);
-        searchHistoryBtn.textContent = city;
-        searchHistoryList.appendChild(searchHistoryBtn);
-        // display searched city's info
-        displayWeather(city);
-        // resets search container back to empty
-        cityInputEl.value = '';
-    } else {
-        alert('Enter a City Name');
-    }
-}
 
 
 // show history of searched cities

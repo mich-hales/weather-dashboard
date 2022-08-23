@@ -60,18 +60,33 @@ i {
     padding: 10px;
 }
 
+/* stacks the 5 day forecast heading and contents on top of eachother */
 .five-day-forecast {
-    background-color: var(--med-purple);
-    padding: 10px;
-    color: white;
+    display: flex;
+    flex-direction: column;
 }
 
 .five-day-forecast-header {
+    background-color: var(--med-purple);
     font-weight: bold;
+    color: white;
+    padding: 15px;
+}
+
+/* styling for five day forecast container */
+.five-day-forecast-container {
+    background-color: pink;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* when five day weather forecast is displayed, stying for p tags */
+.five-day-forecast-container p {
+
 }
 
 .section-2 {
-    margin: 20px;
+    margin: 20px 20px 20px 0px;
 }
 
 .submit-button {
