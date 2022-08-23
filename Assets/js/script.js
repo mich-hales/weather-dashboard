@@ -26,7 +26,7 @@ let formSubmitHandler = function (event) {
         searchHistoryBtn.setAttribute('data-city', citySearched);
         searchHistoryBtn.textContent = citySearched;
         searchHistoryList.appendChild(searchHistoryBtn);
-        // display searched city's info
+        // calls the weatherInfo function and inputs the searched city as an argument
         weatherInfo(citySearched);
         // resets search container back to empty
         cityInputEl.value = '';
@@ -37,17 +37,16 @@ let formSubmitHandler = function (event) {
 
 
 var currentDate = document.querySelector('.current-date');
-var currentWeatherIcon = docuemnt.querySelector('.featured-weather-icon');
+var currentWeatherIcon = document.querySelector('.featured-weather-icon');
 var displayedCity = document.querySelector('.featured-city-header')
 
 
 var apiKey = '300ba1bc4c70b9982f60158a745b8368';
 // 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
-var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
-    
-
 
 let weatherInfo = function(citySearched) {
+    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
+
     fetch(apiUrl).then(function (cityResponse) {
         return cityResponse.json()
     })
@@ -64,6 +63,10 @@ let weatherInfo = function(citySearched) {
         // get weather icon
         let weatherIcon = cityResponse.weather[0].icon;
         let showIcon = "<img src='http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png'/>"
+
+        // resetting current weather info for new 
+        featuredCityContainer.textContent = '';
+        fiveDayForecastContainer.textContent = '';
 
         // displays city, date and icon on page
         displayedCity.textContent = city.name;
@@ -83,39 +86,41 @@ let weatherInfo = function(citySearched) {
         //     mode: "no-cors",
         // };
         
+        // taking latitude and longitutde from city searched and returning a fetch request
         return fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35')
     })
-    .then(async function(response) {
-        const data = await response.json();
-        console.log(data);
-        displayWeather(data);
-    });
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(response) {
+        console.log(response);
+        // calls the displayWeather function to display content
+        displayWeather(response);
+    })
 };
 
 
 
-
-
 // display weather 
-const displayWeather = function (city) {
+const displayWeather = function (cityWeather) {
 
     // temperature
     let temperature = document.createElement('p');
     temperature.classList.add('current-temperature');
-    temperature.textContent = 'Temperature: ' + city.main.temp + '°F';
+    temperature.textContent = 'Temperature: ' + cityWeather.main.temp + '°F';
     // temperature.textContent = 'Temperature: ' + city.current.temp.toFixed(1) + '°F';
     featuredCityContainer.appendChild(temperature);
 
     // humidity
     let humidity = document.createElement('p');
     humidity.classList.add('humidity');
-    humidity.textContent = 'Humidity: ' + city.main.humidity + '%';
+    humidity.textContent = 'Humidity: ' + cityWeather.main.humidity + '%';
     // humidity.textContent = 'Humidity: ' + city.current.humidity + '%';
     featuredCityContainer.appendChild(humidity);
 
     // wind
     let wind = document.createElement('p');
-    wind.textContent = 'Wind Speed: ' + city.wind.speed + 'MPH';
+    wind.textContent = 'Wind Speed: ' + cityWeather.wind.speed + 'MPH';
     // wind.textContent = 'Wind Speed: ' + city.current.wind_speed + 'MPH';
     featuredCityContainer.appendChild(wind);
 
@@ -135,37 +140,45 @@ const displayWeather = function (city) {
     // uvindex is deprecated . . . and one call requires a paid subscription ?? 
     // tried subscribing to the onecall api and it still isn't working . . . ???
 
-    var dailyForecast = city.daily;
-    var today = new Date();
 
-    // // 5 day forecast 
-    for (let i = 0; i < dailyForecast.length; i++) {
-        // displays date -- for the next 5 days
-        var date = (today.getMonth() + 1) + '/' + (today.getDate() + i + 1) + '/' + today.getFullYear();
-        // retrieves info to get icon for current weather condition
-        var icon = dailyForecast[i].weather[0].icon;
-        // displays icon for current condition (URL is http://openweathermap.org/img/wn/10d@2x.png -- example code on openweather to retrieve icons)
-        var showIcon = "<img src='http://openweathermap.org/img/wn/" + icon + "@2x.png'/>"
-        var displayElement = document.createElement('div');
-        displayElement.innerHTML = '<p>' + date + '</p>' +
-            '<p>' + showIcon +'</p>' +
-            '<p>Temp: ' + dailyForecast[i].temp.day.toFixed(1) + '°F</p>' +
-            '<p>Humidity: ' + dailyForecast[i].humidity + '%</p>' +
-            '<p>Wind: ' + dailyForecast[i].wind_speed +'MPH</p>' 
-        // append to page
-        fiveDayForecastContainer.appendChild(displayElement); 
-    }  
+
+
+
+
+
+    // var dailyForecast = city.daily;
+    // var today = new Date();
+
+    // // // 5 day forecast 
+    // for (let i = 0; i < dailyForecast.length; i++) {
+    //     // displays date -- for the next 5 days
+    //     var date = (today.getMonth() + 1) + '/' + (today.getDate() + i + 1) + '/' + today.getFullYear();
+    //     // retrieves info to get icon for current weather condition
+    //     var icon = dailyForecast[i].weather[0].icon;
+    //     // displays icon for current condition (URL is http://openweathermap.org/img/wn/10d@2x.png -- example code on openweather to retrieve icons)
+    //     var showIcon = "<img src='http://openweathermap.org/img/wn/" + icon + "@2x.png'/>"
+    //     var displayElement = document.createElement('div');
+    //     displayElement.innerHTML = '<p>' + date + '</p>' +
+    //         '<p>' + showIcon +'</p>' +
+    //         '<p>Temp: ' + dailyForecast[i].temp.day.toFixed(1) + '°F</p>' +
+    //         '<p>Humidity: ' + dailyForecast[i].humidity + '%</p>' +
+    //         '<p>Wind: ' + dailyForecast[i].wind_speed +'MPH</p>' 
+    //     // append to page
+    //     fiveDayForecastContainer.appendChild(displayElement); 
+    // }  
 }
 
 
 
 // show history of searched cities
 let showHistory = function() {
+    // referencing the array created at the beginning 
     searchHistory = JSON.parse(localStorage.getItem('search-history'));
    
     if (searchHistory) {
         searchHistory = JSON.parse(localStorage.getItem('search-history'));
         
+        // Creating buttons for the search history 
         for (let i = 0; i < searchHistory.length; i++) {
             let searchHistoryBtn = document.createElement('button');
             searchHistoryBtn.classList.add('search-history-buttons');
@@ -179,20 +192,25 @@ let showHistory = function() {
 
 // if a button in search history is clicked, the weather of that city will display from the local storage
 let historyButtonSearch = function (event) {
-    let city = event.target.getAttribute('data-city');
-    if (city) {
-        displayWeather(city);
+    // retrieving the data attribute created at the beginning (the city name will be the attribute)
+    let cityHistory = event.target.getAttribute('data-city');
+    // if the city in the search history is clicked (which is saved in the data-attribute) it will display it's weather info back onto the page
+    if (cityHistory) {
+        weatherInfo(cityHistory);
     }
 }
 
-// clear search history
-let clearHistoryButton = function (event) {
+// clear search history from local storage
+let clearHistoryButton = function () {
     localStorage.removeItem('search-history');
 }
 
-
-// call functions when items are clicked
+// when city is searched and the search button is clicked, will call the formSubmitHandler function which initiates everything
 searchButton.addEventListener('submit', formSubmitHandler);
-clearHistory.addEventListener('click', clearHistoryButton);
+// when a previously searched city's button is clicked on, will call the historyButtonSearch function
 searchHistoryList.addEventListener('click', historyButtonSearch);
-loadHistory();
+// when the clear history's button is clicked on, will call ClearHistoryButton function
+clearHistory.addEventListener('click', clearHistoryButton);
+
+// displays search history on the page
+showHistory();
