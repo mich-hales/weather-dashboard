@@ -144,46 +144,46 @@ const displayWeather = function (cityWeather) {
 
 
 
-
-    // not sure what to call in the api . . . 
     var dailyForecast = cityWeather.list;
     console.log(dailyForecast);
 
-    // // 5 day forecast 
+    // 5 day forecast (starts on the 3rd list item -- puts the time at noon for every day)
     for (let i = 3; i < dailyForecast.length; i = i + 8) {
-        var temp = dailyForecast[i].main.temp;
-        dailyForecast[i].dt_txt;
-        console.log(dailyForecast[i].main.temp)
-        console.log(dailyForecast[i].dt_txt)
+        // gathering data from the 5 day forecast api
+        var fiveDayTemp = dailyForecast[i].main.temp;
+        var fiveDayDate = dailyForecast[i].dt_txt;
+        var fiveDayIcon = dailyForecast[i].weather[0].icon;
+        var fiveDayWind = dailyForecast[i].wind.speed;
+        var fiveDayHumidity = dailyForecast[i].main.humidity;
 
-        var test = document.createElement('p');
-        test.textContent = temp;
-        fiveDayForecastContainer.appendChild(test);
+        // creates the date element and appends to page
+        var dateEl = document.createElement('p');
+        var momentEl = moment(fiveDayDate).format('MM/DD/YYYY');
+        dateEl.textContent = momentEl;
+        fiveDayForecastContainer.appendChild(dateEl);
+        
+        // creates the weather icon and appends to page
+        var iconEl = document.createElement('img');
+        iconEl.setAttribute('src', 'http://openweathermap.org/img/wn/' + fiveDayIcon + '@2x.png')
+        fiveDayForecastContainer.appendChild(iconEl);
+
+        // creates the temp element and appends to page
+        var tempEl = document.createElement('p');
+        tempEl.textContent = 'Temp: ' + fiveDayTemp + ' °F';
+        fiveDayForecastContainer.appendChild(tempEl);
+
+        // creates the wind speed element and appends to page
+        var windEl = document.createElement('p');
+        windEl.textContent = 'Wind: ' + fiveDayWind + ' MPH';
+        fiveDayForecastContainer.appendChild(windEl);
+
+        // creates the humidity element and appends to page
+        var humidityEl = document.createElement('p');
+        humidityEl.textContent = 'Humidity: ' + fiveDayHumidity + ' %';
+        fiveDayForecastContainer.appendChild(humidityEl);
     }  
         
     
-    
-    
-    
-    // is dt_txt going to get me the date?
-        // forecastDate[i] = dailyForecast.list[i].dt_txt;
-        // forecastIcon[i] = dailyForecast[i].weather[0].icon;
-   
-        // forecastWind[i] = dailyForecast[i].wind.speed;
-        // forecastHum[i] = dailyForecast[i].main.humidity;
-
-        
-
-
-
-    //     displayElement.innerHTML = '<p>' + date + '</p>' +
-    //     '<p>' + showIcon +'</p>' +
-    //     '<p>Temp: ' + dailyForecast[i].temp.day.toFixed(1) + '°F</p>' +
-    //     '<p>Humidity: ' + dailyForecast[i].humidity + '%</p>' +
-    //     '<p>Wind: ' + dailyForecast[i].wind_speed +'MPH</p>' 
-    // // append to page
-    // fiveDayForecastContainer.appendChild(displayElement); 
-
 
 
     // var today = new Date();
