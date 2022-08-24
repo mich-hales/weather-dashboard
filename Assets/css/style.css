@@ -31,12 +31,12 @@ main {
 }
 
 .grid-layout {
-    background-color: pink;
+    /* background-color: pink; */
 }
 
-/* .search {
-
-} */
+.currentcity-header {
+    margin: 20px;
+}
 
 .input-search {
     background-color: var(--dark-blue);
@@ -75,14 +75,21 @@ i {
 
 /* styling for five day forecast container */
 .five-day-forecast-container {
+    display: flex;
     background-color: pink;
     padding: 10px;
     border-radius: 5px;
 }
 
 /* when five day weather forecast is displayed, stying for p tags */
-.five-day-forecast-container p {
+.five-day-forecast-container h6 {
+    font-weight: bold;
+    margin: 5px;
+    text-align: center;
+}
 
+.five-day-forecast-container p {
+    margin: 10px;
 }
 
 .section-2 {
@@ -109,19 +116,6 @@ i {
     width: 200px;
     background-color: var(--med-blue);
 }
-
-
-
-/* 
-.current-temperature {
-
-}
-
-.humidity {
-
-} */
-
-
 
 /* UV index styling */
 .uv-green {

@@ -3,10 +3,10 @@ let searchButton = document.querySelector('.submit-button');
 let cityInputEl = document.querySelector('.input-city-element');
 let searchResultsContainer = document.querySelector('.search-results-container');
 let featuredCityContainer = document.querySelector('.featured-city-container');
-let fiveDayForecastContainer = document.querySelector('.five-day-forecast-container');
 let clearHistory = document.querySelector('#clear-history');
 let searchHistoryList = document.querySelector('.search-history');
 let cityForm = document.querySelector('#city-form');
+let fiveDayForecastContainer = document.querySelector('.five-day-forecast-container');
 
 
 
@@ -46,13 +46,9 @@ let formSubmitHandler = function (event) {
 }
 
 
-var currentDate = document.querySelector('.current-date');
-var currentWeatherIcon = document.querySelector('.featured-weather-icon');
+// var currentDate = document.querySelector('#current-date');
+var currentWeatherIcon = document.querySelector('#featured-weather-icon');
 var displayedCity = document.querySelector('.featured-city-header')
-
-
-var apiKey = '300ba1bc4c70b9982f60158a745b8368';
-// 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
 
 let weatherInfo = function(citySearched) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
@@ -68,42 +64,29 @@ let weatherInfo = function(citySearched) {
         // longitude and latitude coordinates of the city searched
         let longitude = cityResponse.coord.lon;
         let latitude = cityResponse.coord.lat;
-    
-        // variables
-        let city = cityResponse.name;
-        var date = moment().format('MM/DD/YYYY');
-        // get weather icon
-        let weatherIcon = cityResponse.weather[0].icon;
-        let showIcon = "<img src='http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png'/>"
 
-        // resetting current weather info for new 
+        // resetting current weather info for new data
         featuredCityContainer.textContent = '';
         fiveDayForecastContainer.textContent = '';
-
-        // displays city, date and icon on page
-        displayedCity.textContent = city.name;
-        currentDate.textContent = date;
-        currentWeatherIcon.textContent = showIcon;
-      
-
-        // new openweather api requires longitutde and latitude... returning the fetch request from obtained coordinates
-        // https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key} -- new onecall api after subscribing -- needed for uv index.
-        // 'https://api.openweathermap.org/data/3.0/onecall?lat=' + latitude + '&lon=' + longitude + '&units=imperial&appid=d277d11a67875138e278bf921f539c35'
-        // 'https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35'
         
-    
-        // by declaring the content-type: application/json, hoping api will work
-        // const options = {
-        //     headers: new Headers({"content-type": "application/json"}),
-        //     mode: "no-cors",
-        // };
+        // display name of city
+        let cityName = document.createElement('h3');
+        cityName.textContent = cityResponse.name;
+        cityName.style.margin = '10px 0 0 30px'
+        displayedCity.appendChild(cityName);
 
+        // display date
+        let displayDate = document.createElement('h3');
+        displayDate.textContent = moment().format('M/DD/YYYY');
+        displayDate.style.margin = '10px 0 0 10px';
+        displayedCity.appendChild(displayDate);
 
-        // api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
-        // this is the 5 day forecast api . . . 
+        // display icon
+        let currentIcon = document.createElement('img');
+        let weatherIcon = cityResponse.weather[0].icon;
+        currentIcon.setAttribute('src', 'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png');
+        currentWeatherIcon.append(currentIcon);
 
-        console.log('https://api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35')
-        
         // taking latitude and longitutde from city searched and returning a fetch request
         return fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35')
     })
@@ -124,22 +107,20 @@ const displayWeather = function (cityWeather) {
 
     // temperature
     let temperature = document.createElement('p');
-    temperature.classList.add('current-temperature');
-    temperature.textContent = 'Temperature: ' + cityWeather.list[0].main.temp + '°F';
-    // temperature.textContent = 'Temperature: ' + city.current.temp.toFixed(1) + '°F';
+    temperature.textContent = 'Temperature: ' + cityWeather.list[0].main.temp + ' °F';
+    temperature.style.margin = '0 0 5px 10px'
     featuredCityContainer.appendChild(temperature);
 
     // humidity
     let humidity = document.createElement('p');
-    humidity.classList.add('humidity');
-    humidity.textContent = 'Humidity: ' + cityWeather.list[0].main.humidity + '%';
-    // humidity.textContent = 'Humidity: ' + city.current.humidity + '%';
+    humidity.textContent = 'Humidity: ' + cityWeather.list[0].main.humidity + ' %';
+    humidity.style.margin = '0 0 5px 10px'
     featuredCityContainer.appendChild(humidity);
 
     // wind
     let wind = document.createElement('p');
-    wind.textContent = 'Wind Speed: ' + cityWeather.list[0].wind.speed + 'MPH';
-    // wind.textContent = 'Wind Speed: ' + city.current.wind_speed + 'MPH';
+    wind.textContent = 'Wind Speed: ' + cityWeather.list[0].wind.speed + ' MPH';
+    wind.style.margin = '0 0 10px 10px'
     featuredCityContainer.appendChild(wind);
 
 
@@ -156,50 +137,41 @@ const displayWeather = function (cityWeather) {
         var fiveDayWind = dailyForecast[i].wind.speed;
         var fiveDayHumidity = dailyForecast[i].main.humidity;
 
+
+        // creates a container for all elements to display
+        let container = document.createElement('div');
+        container.style.border = '2px solid black';
+        container.style.margin = '10px';
+        fiveDayForecastContainer.appendChild(container);
+        
+
         // creates the date element and appends to page
-        var dateEl = document.createElement('p');
-        var momentEl = moment(fiveDayDate).format('MM/DD/YYYY');
+        var dateEl = document.createElement('h6');
+        var momentEl = moment(fiveDayDate).format('M/DD/YYYY');
         dateEl.textContent = momentEl;
-        fiveDayForecastContainer.appendChild(dateEl);
+        container.appendChild(dateEl);
         
         // creates the weather icon and appends to page
         var iconEl = document.createElement('img');
         iconEl.setAttribute('src', 'http://openweathermap.org/img/wn/' + fiveDayIcon + '@2x.png')
-        fiveDayForecastContainer.appendChild(iconEl);
+        container.appendChild(iconEl);
 
         // creates the temp element and appends to page
         var tempEl = document.createElement('p');
         tempEl.textContent = 'Temp: ' + fiveDayTemp + ' °F';
-        fiveDayForecastContainer.appendChild(tempEl);
+        container.appendChild(tempEl);
 
         // creates the wind speed element and appends to page
         var windEl = document.createElement('p');
         windEl.textContent = 'Wind: ' + fiveDayWind + ' MPH';
-        fiveDayForecastContainer.appendChild(windEl);
+        container.appendChild(windEl);
 
         // creates the humidity element and appends to page
         var humidityEl = document.createElement('p');
         humidityEl.textContent = 'Humidity: ' + fiveDayHumidity + ' %';
-        fiveDayForecastContainer.appendChild(humidityEl);
+        container.appendChild(humidityEl);
     }  
-        
-    
-
-
-    // var today = new Date();
-    // console.log(today);
-
-
-    //     // displays date -- for the next 5 days
-    //     var date = (today.getMonth() + 1) + '/' + (today.getDate() + i + 1) + '/' + today.getFullYear();
-    //     // displays icon for current condition (URL is http://openweathermap.org/img/wn/10d@2x.png -- example code on openweather to retrieve icons)
-    //     var showIcon = "<img src='http://openweathermap.org/img/wn/" + icon + "@2x.png'/>"
-    //     var displayElement = document.createElement('div');
-    
 }
-
-
-
 
     // IF I'm able to use the opencall api, I looked up the data and figured this is how it would work. . . but the api isn't working still
     // still need to test it to see if it works properly 
@@ -220,38 +192,6 @@ const displayWeather = function (cityWeather) {
 
     // uvindex is deprecated . . . and one call requires a paid subscription ?? 
     // tried subscribing to the onecall api and it still isn't working . . . ???
-
-
-
-
-// this is how I would be able to present the 5 day forecast, but the opencall api still isn't working and not sure how to do it without it.
-// haven't been able to test it cuz the api isn't working so still not sure if it will work properly . . . 
-
-    // var dailyForecast = cityWeather.daily;
-    // var today = new Date();
-
-    // // // 5 day forecast 
-    // for (let i = 0; i < dailyForecast.length; i++) {
-    //     // displays date -- for the next 5 days
-    //     var date = (today.getMonth() + 1) + '/' + (today.getDate() + i + 1) + '/' + today.getFullYear();
-    //     // retrieves info to get icon for current weather condition
-    //     var icon = dailyForecast[i].weather[0].icon;
-    //     // displays icon for current condition (URL is http://openweathermap.org/img/wn/10d@2x.png -- example code on openweather to retrieve icons)
-    //     var showIcon = "<img src='http://openweathermap.org/img/wn/" + icon + "@2x.png'/>"
-    //     var displayElement = document.createElement('div');
-    //     displayElement.innerHTML = '<p>' + date + '</p>' +
-    //         '<p>' + showIcon +'</p>' +
-    //         '<p>Temp: ' + dailyForecast[i].temp.day.toFixed(1) + '°F</p>' +
-    //         '<p>Humidity: ' + dailyForecast[i].humidity + '%</p>' +
-    //         '<p>Wind: ' + dailyForecast[i].wind_speed +'MPH</p>' 
-    //     // append to page
-    //     fiveDayForecastContainer.appendChild(displayElement); 
-    // }  
-
-
-
-
-
 
 
 // show history of searched cities
