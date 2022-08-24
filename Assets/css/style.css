@@ -6,11 +6,10 @@
 
 :root {
     --body-font: 'Montserrat', sans-serif;
-    --dark-purple: rgb(49,37,90);
     --light-blue: rgb(143,224,255);
     --med-blue: rgb(74, 138, 187);
-    --med-purple: rgb(117, 91, 151);
     --dark-blue: rgb(9, 68, 121);
+    --bubbles: rgb(227, 244, 254);
 }
 
 body {
@@ -23,7 +22,7 @@ main {
 }
 
 .weather-heading {
-    background-color: var(--dark-purple);
+    background-color: var(--dark-blue);
     color: white;
     text-align: center;
     padding: 40px;
@@ -51,9 +50,13 @@ i {
 }
 
 .featured-city {
-    background-color: var(--light-blue);
+    background-color: var(--bubbles);
     margin-bottom: 20px;
     padding: 10px;
+}
+
+.featured-city-header {
+    font-weight: bold;
 }
 
 /* stacks the 5 day forecast heading and contents on top of eachother */
@@ -63,7 +66,7 @@ i {
 }
 
 .five-day-forecast-header {
-    background-color: var(--dark-blue);
+    background-color: var(--med-blue);
     font-weight: bold;
     color: white;
     padding: 15px;
@@ -92,11 +95,11 @@ i {
 }
 
 .submit-button {
-    background-color: var(--light-blue);
+    background-color: var(--bubbles);
 }
 
 .submit-button:hover {
-    box-shadow: 0 0 1px 1px white;
+    box-shadow: 0 0 1px 1px var(--dark-blue);
     font-weight: bold;
 }
 

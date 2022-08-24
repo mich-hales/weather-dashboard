@@ -74,12 +74,14 @@ let weatherInfo = function(citySearched) {
         let cityName = document.createElement('h3');
         cityName.textContent = cityResponse.name;
         cityName.style.margin = '10px 0 0 30px'
+        cityName.style.fontWeight = 'bold';
         displayedCity.appendChild(cityName);
 
         // display date
         let displayDate = document.createElement('h3');
         displayDate.textContent = moment().format('M/DD/YYYY');
         displayDate.style.margin = '10px 0 0 10px';
+        displayDate.style.fontWeight = 'bold';
         displayedCity.appendChild(displayDate);
 
         // display icon
@@ -126,6 +128,7 @@ const displayWeather = function (cityWeather) {
     wind.style.margin = '0 0 5px 10px'
     featuredCityContainer.appendChild(wind);
 
+    // redeclaring coordinates to fetch the UV Index data
     let uvLat = cityWeather.city.coord.lat;
     let uvLon = cityWeather.city.coord.lon;
     let UVindexAPI = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + uvLat + '&lon=' + uvLon + '&APPID=d277d11a67875138e278bf921f539c35';
@@ -135,6 +138,7 @@ const displayWeather = function (cityWeather) {
         return response.json()
     })
     .then(function(response) {
+        // display UV Index results and color code it depending on number
         var uvResult = document.createElement('p');
         var uvi = response.value;
         uvResult.setAttribute('id', 'uv-index');
@@ -154,8 +158,6 @@ const displayWeather = function (cityWeather) {
         uvResult.style.padding = '5px';
         uvResult.style.borderRadius = '5px';
         featuredCityContainer.appendChild(uvResult);
-    
-        // displayUvi(data)
     })
 
     
@@ -177,8 +179,9 @@ const displayWeather = function (cityWeather) {
         // creates a container for all elements to display
         let container = document.createElement('div');
         container.style.border = '2px solid black';
+        container.style.borderRadius = '5px';
         container.style.margin = '10px';
-        container.style.backgroundColor = 'rgb(143,224,255)'
+        container.style.backgroundColor = 'rgb(227, 244, 254)'
         fiveDayForecastContainer.appendChild(container);
         
 
@@ -209,8 +212,6 @@ const displayWeather = function (cityWeather) {
         container.appendChild(humidityEl);
     }  
 }
-
-
 
 
 // show history of searched cities
