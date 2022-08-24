@@ -142,13 +142,13 @@ const displayWeather = function (cityWeather) {
         var spanUvi = document.createElement('span');
         var uvi = response.value;
     
-        if (uvi <= 2) {
+        if (uvi <= 3) {
             spanUvi.classList.add('uv-green');
-        } else if (uvi >= 3 && uvi <=5) {
+        } else if (uvi >= 3 && uvi <=6) {
             spanUvi.classList.add('uv-yellow');
-        } else if (uvi >=6 && uvi <=7) {
+        } else if (uvi >=6 && uvi <=8) {
             spanUvi.classList.add('uv-orange');
-        } else if (uvi > 8) {
+        } else if (uvi >=8) {
             spanUvi.classList.add('uv-red');
         }
            
