@@ -22,20 +22,18 @@ let formSubmitHandler = function (event) {
     var citySearched = cityInputEl.value.trim();
     console.log(citySearched)
 
-    // searchHistory array is not working . . . push isn't working? ? ? 
-
-
     // local storage
     if (citySearched) {
-        console.log(searchHistory);
-        console.log(citySearched);
         searchHistory.push(citySearched);
-        localStorage.setItem('search-history', JSON.stringify(searchHistory));
+     
+        localStorage.setItem('weather-search', JSON.stringify(searchHistory));
         let searchHistoryBtn = document.createElement('button');
         searchHistoryBtn.classList.add('search-history-buttons');
         searchHistoryBtn.setAttribute('data-city', citySearched);
         searchHistoryBtn.textContent = citySearched;
         searchHistoryList.appendChild(searchHistoryBtn);
+        searchHistoryList.removeAttribute('style');
+
         // calls the weatherInfo function and inputs the searched city as an argument
         weatherInfo(citySearched);
         // resets search container back to empty
@@ -46,9 +44,10 @@ let formSubmitHandler = function (event) {
 }
 
 
-// var currentDate = document.querySelector('#current-date');
 var currentWeatherIcon = document.querySelector('#featured-weather-icon');
 var displayedCity = document.querySelector('.featured-city-header')
+var containerFeaturedCity = document.querySelector('.featured-city');
+var containerFeaturedForecast = document.querySelector('.five-day-forecast');
 
 let weatherInfo = function(citySearched) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
@@ -68,7 +67,9 @@ let weatherInfo = function(citySearched) {
         // resetting current weather info for new data
         featuredCityContainer.textContent = '';
         fiveDayForecastContainer.textContent = '';
-        
+        displayedCity.textContent = '';
+        currentWeatherIcon.textContent = '';
+
         // display name of city
         let cityName = document.createElement('h3');
         cityName.textContent = cityResponse.name;
@@ -84,8 +85,12 @@ let weatherInfo = function(citySearched) {
         // display icon
         let currentIcon = document.createElement('img');
         let weatherIcon = cityResponse.weather[0].icon;
-        currentIcon.setAttribute('src', 'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png');
+        currentIcon.setAttribute('src', 'https://openweathermap.org/img/wn/' + weatherIcon + '@2x.png');
         currentWeatherIcon.append(currentIcon);
+
+        // display containers
+        containerFeaturedCity.classList.remove('hide');
+        containerFeaturedForecast.classList.remove('hide');
 
         // taking latitude and longitutde from city searched and returning a fetch request
         return fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude +  '&units=imperial&appid=d277d11a67875138e278bf921f539c35')
@@ -99,8 +104,6 @@ let weatherInfo = function(citySearched) {
         displayWeather(response);
     })
 };
-
-
 
 // display weather 
 const displayWeather = function (cityWeather) {
@@ -120,16 +123,49 @@ const displayWeather = function (cityWeather) {
     // wind
     let wind = document.createElement('p');
     wind.textContent = 'Wind Speed: ' + cityWeather.list[0].wind.speed + ' MPH';
-    wind.style.margin = '0 0 10px 10px'
+    wind.style.margin = '0 0 5px 10px'
     featuredCityContainer.appendChild(wind);
 
+    let uvLat = cityWeather.city.coord.lat;
+    let uvLon = cityWeather.city.coord.lon;
+    let UVindexAPI = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + uvLat + '&lon=' + uvLon + '&APPID=d277d11a67875138e278bf921f539c35';
+   
+    fetch(UVindexAPI)
+    .then(function(response){
+        return response.json()
+    })
+    .then(function(response) {
+        var uvResult = document.createElement('p');
+        var uvi = response.value;
+        uvResult.setAttribute('id', 'uv-index');
+    
+        if (uvi <= 3) {
+            uvResult.classList.add('uv-green');
+        } else if (uvi >= 4 && uvi <=6) {
+            uvResult.classList.add('uv-yellow');
+        } else if (uvi >=7 && uvi <=8) {
+            uvResult.classList.add('uv-orange');
+        } else if (uvi > 8) {
+            uvResult.classList.add('uv-red');
+        }
+           
+        uvResult.innerHTML = 'UV Index: <span>' + uvi + '</span>'
+        uvResult.style.margin = '0 0 5px 5px';
+        uvResult.style.padding = '5px';
+        uvResult.style.borderRadius = '5px';
+        featuredCityContainer.appendChild(uvResult);
+    
+        // displayUvi(data)
+    })
+
+    
 
 
     var dailyForecast = cityWeather.list;
     console.log(dailyForecast);
 
-    // 5 day forecast (starts on the 3rd list item -- puts the time at noon for every day)
-    for (let i = 3; i < dailyForecast.length; i = i + 8) {
+    // 5 day forecast
+    for (let i = 0; i < dailyForecast.length; i = i + 8) {
         // gathering data from the 5 day forecast api
         var fiveDayTemp = dailyForecast[i].main.temp;
         var fiveDayDate = dailyForecast[i].dt_txt;
@@ -142,6 +178,7 @@ const displayWeather = function (cityWeather) {
         let container = document.createElement('div');
         container.style.border = '2px solid black';
         container.style.margin = '10px';
+        container.style.backgroundColor = 'rgb(143,224,255)'
         fiveDayForecastContainer.appendChild(container);
         
 
@@ -153,7 +190,7 @@ const displayWeather = function (cityWeather) {
         
         // creates the weather icon and appends to page
         var iconEl = document.createElement('img');
-        iconEl.setAttribute('src', 'http://openweathermap.org/img/wn/' + fiveDayIcon + '@2x.png')
+        iconEl.setAttribute('src', 'https://openweathermap.org/img/wn/' + fiveDayIcon + '@2x.png')
         container.appendChild(iconEl);
 
         // creates the temp element and appends to page
@@ -173,34 +210,16 @@ const displayWeather = function (cityWeather) {
     }  
 }
 
-    // IF I'm able to use the opencall api, I looked up the data and figured this is how it would work. . . but the api isn't working still
-    // still need to test it to see if it works properly 
 
-
-    // uv-index
-    // let uvIndex = document.createElement('p');
-    // let uvIndexVal = cityWeather.current.uvi.toFixed(1);
-    // if (uvIndexVal >= 0) {
-    //     uvIndex.classList.add('uv-green');
-    // } else if (uvIndexVal >=3) {
-    //     uvIndex.classList.add('uv-yellow');
-    // } else if (uvIndexVal >= 8) {
-    //     uvIndex.classList.add('uv-green');
-    // }
-    // uvIndex.innerHTML = 'UV Index: <span>' + uvIndexVal + '</span>';
-    // featuredCityContainer.appendChild(uvIndex);
-
-    // uvindex is deprecated . . . and one call requires a paid subscription ?? 
-    // tried subscribing to the onecall api and it still isn't working . . . ???
 
 
 // show history of searched cities
 let showHistory = function() {
     // referencing the array created at the beginning 
-    searchHistory = JSON.parse(localStorage.getItem('search-history'));
+    searchHistory = JSON.parse(localStorage.getItem('weather-search'));
    
     if (searchHistory) {
-        searchHistory = JSON.parse(localStorage.getItem('search-history'));
+        searchHistory = JSON.parse(localStorage.getItem('weather-search'));
         
         // Creating buttons for the search history 
         for (let i = 0; i < searchHistory.length; i++) {
@@ -209,6 +228,7 @@ let showHistory = function() {
             searchHistoryBtn.setAttribute('data-city', searchHistory[i]);
             searchHistoryBtn.textContent = searchHistory[i];
             searchHistoryList.appendChild(searchHistoryBtn);
+            searchHistoryList.removeAttribute('style');
         }
     }
 }
@@ -225,20 +245,12 @@ let historyButtonSearch = function (event) {
 }
 
 
-// will this properly remove the buttons from page? 
-
-
-
-
-// show clear history buttons
-
 // clear search history from local storage
 let clearHistoryButton = function () {
-    localStorage.removeItem('search-history');
+    localStorage.removeItem('weather-search');
+    // hides buttons
+    searchHistoryList.setAttribute('style', 'display: none');
 }
-
-
-// why does submit button not work?
 
 
 // when city is searched and the search button is clicked, will call the formSubmitHandler function which initiates everything
@@ -249,4 +261,4 @@ searchHistoryList.addEventListener('click', historyButtonSearch);
 clearHistory.addEventListener('click', clearHistoryButton);
 
 // displays search history on the page
-showHistory();
+// showHistory();

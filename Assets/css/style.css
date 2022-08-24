@@ -30,10 +30,6 @@ main {
     font-weight: bold;
 }
 
-.grid-layout {
-    /* background-color: pink; */
-}
-
 .currentcity-header {
     margin: 20px;
 }
@@ -67,7 +63,7 @@ i {
 }
 
 .five-day-forecast-header {
-    background-color: var(--med-purple);
+    background-color: var(--dark-blue);
     font-weight: bold;
     color: white;
     padding: 15px;
@@ -76,7 +72,6 @@ i {
 /* styling for five day forecast container */
 .five-day-forecast-container {
     display: flex;
-    background-color: pink;
     padding: 10px;
     border-radius: 5px;
 }
@@ -100,6 +95,11 @@ i {
     background-color: var(--light-blue);
 }
 
+.submit-button:hover {
+    box-shadow: 0 0 1px 1px white;
+    font-weight: bold;
+}
+
 /* to hide elements */
 .hide {
     display: none;
@@ -117,15 +117,31 @@ i {
     background-color: var(--med-blue);
 }
 
+#clear-history {
+    margin: 10px;
+}
+
+#clear-history:hover {
+    box-shadow: 0 0 1px 1px var(--dark-blue);
+    font-weight: bold;
+}
+
+
 /* UV index styling */
 .uv-green {
     background-color: green;
+    color: white;
 }
 
 .uv-yellow {
     background-color: yellow;
 }
 
+.uv-orange {
+    background-color: orange;
+}
+
 .uv-red {
     background: red;
+    color: white;
 }

@@ -47,22 +47,21 @@
              
                 <div class="results text-center">
                     <div id="error-message"></div>
-                    <div class="search-history container">
-                    </div>
-                    <button id="clear-history" class="text-center p-1 rounded-lg hide">Clear Search History</button>
+                    <div class="search-history container" style="display: none;"></div>
+                    <button id="clear-history" class="text-center p-1 rounded-lg">Clear Search History</button>
                 </div>
             </section>
          
             <section class="col section-2">
                 <!-- The featured city will appear here -->
-                <div class="featured-city rounded-lg">
+                <div class="featured-city rounded-lg hide">
                     <div class="featured-city-header row"></div>
                     <div id="featured-weather-icon"></div>
                     <div class="featured-city-container mt-3"></div>
                 </div>
                 
                 <!-- Five day forecast will appear here -->
-                <div class="five-day-forecast ">
+                <div class="five-day-forecast hide">
                     <h3 class="five-day-forecast-header rounded-lg">5 Day Forecast</h3>
                     <div class="five-day-forecast-container"></div>
                 </div>
