@@ -16,7 +16,7 @@ This application displays weather for the current date along with a 5 day foreca
 
 The following image shows the web application's appearance and functionality:
 
-![The weather app includes a search option, a list of cities, and a five-day forecast and current weather conditions for Atlanta.](./Assets/screenshot.png)
+![The weather app includes a search option, a list of cities, and a five-day forecast and current weather conditions for Atlanta.](./Assets/newscreenshot.png)
 
 
 ## Links

@@ -3,7 +3,6 @@ let searchButton = document.querySelector('.submit-button');
 let cityInputEl = document.querySelector('.input-city-element');
 let searchResultsContainer = document.querySelector('.search-results-container');
 let featuredCityContainer = document.querySelector('.featured-city-container');
-let clearHistory = document.querySelector('#clear-history');
 let searchHistoryList = document.querySelector('.search-history');
 let cityForm = document.querySelector('#city-form');
 let fiveDayForecastContainer = document.querySelector('.five-day-forecast-container');
@@ -112,20 +111,20 @@ const displayWeather = function (cityWeather) {
 
     // temperature
     let temperature = document.createElement('p');
-    temperature.textContent = 'Temperature: ' + cityWeather.list[0].main.temp + ' °F';
-    temperature.style.margin = '0 0 5px 10px'
+    temperature.innerHTML = '<strong>Temperature: </strong>' + cityWeather.list[0].main.temp + ' °F';
+    temperature.style.margin = '0 0 5px 15px'
     featuredCityContainer.appendChild(temperature);
 
     // humidity
     let humidity = document.createElement('p');
-    humidity.textContent = 'Humidity: ' + cityWeather.list[0].main.humidity + ' %';
-    humidity.style.margin = '0 0 5px 10px'
+    humidity.innerHTML =  '<strong>Humidity: </strong>' + cityWeather.list[0].main.humidity + ' %';
+    humidity.style.margin = '0 0 5px 15px'
     featuredCityContainer.appendChild(humidity);
 
     // wind
     let wind = document.createElement('p');
-    wind.textContent = 'Wind Speed: ' + cityWeather.list[0].wind.speed + ' MPH';
-    wind.style.margin = '0 0 5px 10px'
+    wind.innerHTML =  '<strong>Wind: </strong>' + cityWeather.list[0].wind.speed + ' MPH';
+    wind.style.margin = '0 0 5px 15px'
     featuredCityContainer.appendChild(wind);
 
     // redeclaring coordinates to fetch the UV Index data
@@ -140,23 +139,26 @@ const displayWeather = function (cityWeather) {
     .then(function(response) {
         // display UV Index results and color code it depending on number
         var uvResult = document.createElement('p');
+        var spanUvi = document.createElement('span');
         var uvi = response.value;
     
         if (uvi <= 2) {
-            uvResult.classList.add('uv-green');
+            spanUvi.classList.add('uv-green');
         } else if (uvi >= 3 && uvi <=5) {
-            uvResult.classList.add('uv-yellow');
+            spanUvi.classList.add('uv-yellow');
         } else if (uvi >=6 && uvi <=7) {
-            uvResult.classList.add('uv-orange');
+            spanUvi.classList.add('uv-orange');
         } else if (uvi > 8) {
-            uvResult.classList.add('uv-red');
+            spanUvi.classList.add('uv-red');
         }
            
-        uvResult.innerHTML = 'UV Index: <span>' + uvi + '</span>'
-        uvResult.style.margin = '0 0 5px 5px';
-        uvResult.style.padding = '5px';
-        uvResult.style.borderRadius = '5px';
+        uvResult.innerHTML = '<strong>UV Index: </strong>'
+        spanUvi.innerHTML = uvi;
+        uvResult.style.margin = '0 0 5px 15px';
+        spanUvi.style.padding = '5px 10px';
+        spanUvi.style.borderRadius = '5px';
         featuredCityContainer.appendChild(uvResult);
+        uvResult.appendChild(spanUvi);
     })
 
     
@@ -197,17 +199,17 @@ const displayWeather = function (cityWeather) {
 
         // creates the temp element and appends to page
         var tempEl = document.createElement('p');
-        tempEl.textContent = 'Temp: ' + fiveDayTemp + ' °F';
+        tempEl.innerHTML =  '<strong>Temp: </strong>' + fiveDayTemp + ' °F';
         container.appendChild(tempEl);
 
         // creates the wind speed element and appends to page
         var windEl = document.createElement('p');
-        windEl.textContent = 'Wind: ' + fiveDayWind + ' MPH';
+        windEl.innerHTML =  '<strong>Wind: </strong>' + fiveDayWind + ' MPH';
         container.appendChild(windEl);
 
         // creates the humidity element and appends to page
         var humidityEl = document.createElement('p');
-        humidityEl.textContent = 'Humidity: ' + fiveDayHumidity + ' %';
+        humidityEl.innerHTML =  '<strong>Humidity: </strong>' + fiveDayHumidity + ' %';
         container.appendChild(humidityEl);
     }  
 }
@@ -244,21 +246,7 @@ let historyButtonSearch = function (event) {
     }
 }
 
-
-// clear search history from local storage
-let clearHistoryButton = function () {
-    localStorage.removeItem('weather-search');
-    // hides buttons
-    searchHistoryList.setAttribute('style', 'display: none');
-}
-
-
 // when city is searched and the search button is clicked, will call the formSubmitHandler function which initiates everything
 cityForm.addEventListener('submit', formSubmitHandler);
 // when a previously searched city's button is clicked on, will call the historyButtonSearch function
 searchHistoryList.addEventListener('click', historyButtonSearch);
-// when the clear history's button is clicked on, will call ClearHistoryButton function
-clearHistory.addEventListener('click', clearHistoryButton);
-
-// displays search history on the page
-// showHistory();
