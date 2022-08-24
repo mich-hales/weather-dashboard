@@ -141,13 +141,12 @@ const displayWeather = function (cityWeather) {
         // display UV Index results and color code it depending on number
         var uvResult = document.createElement('p');
         var uvi = response.value;
-        uvResult.setAttribute('id', 'uv-index');
     
-        if (uvi <= 3) {
+        if (uvi <= 2) {
             uvResult.classList.add('uv-green');
-        } else if (uvi >= 4 && uvi <=6) {
+        } else if (uvi >= 3 && uvi <=5) {
             uvResult.classList.add('uv-yellow');
-        } else if (uvi >=7 && uvi <=8) {
+        } else if (uvi >=6 && uvi <=7) {
             uvResult.classList.add('uv-orange');
         } else if (uvi > 8) {
             uvResult.classList.add('uv-red');
