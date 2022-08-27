@@ -251,4 +251,4 @@ cityForm.addEventListener('submit', formSubmitHandler);
 // when a previously searched city's button is clicked on, will call the historyButtonSearch function
 searchHistoryList.addEventListener('click', historyButtonSearch);
 // calls showHistory function
-// showHistory();
+showHistory();
