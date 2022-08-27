@@ -1,20 +1,20 @@
-let userFormEl = document.querySelector('.search-form');
-let searchButton = document.querySelector('.submit-button');
-let cityInputEl = document.querySelector('.input-city-element');
-let searchResultsContainer = document.querySelector('.search-results-container');
-let featuredCityContainer = document.querySelector('.featured-city-container');
-let searchHistoryList = document.querySelector('.search-history');
-let cityForm = document.querySelector('#city-form');
-let fiveDayForecastContainer = document.querySelector('.five-day-forecast-container');
+var userFormEl = document.querySelector('.search-form');
+var searchButton = document.querySelector('.submit-button');
+var cityInputEl = document.querySelector('.input-city-element');
+var searchResultsContainer = document.querySelector('.search-results-container');
+var featuredCityContainer = document.querySelector('.featured-city-container');
+var searchHistoryList = document.querySelector('.search-history');
+var cityForm = document.querySelector('#city-form');
+var fiveDayForecastContainer = document.querySelector('.five-day-forecast-container');
 
 
 
 // array for search history
-let searchHistory = [];
+var searchHistory = [];
 console.log(searchHistory)
 
 // save search history 
-let formSubmitHandler = function (event) {
+var formSubmitHandler = function (event) {
     event.preventDefault();
 
     // the user input / searched city
@@ -48,7 +48,7 @@ var displayedCity = document.querySelector('.featured-city-header')
 var containerFeaturedCity = document.querySelector('.featured-city');
 var containerFeaturedForecast = document.querySelector('.five-day-forecast');
 
-let weatherInfo = function(citySearched) {
+var weatherInfo = function(citySearched) {
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
 
     console.log(apiUrl);
@@ -60,8 +60,8 @@ let weatherInfo = function(citySearched) {
         console.log(cityResponse)
     
         // longitude and latitude coordinates of the city searched
-        let longitude = cityResponse.coord.lon;
-        let latitude = cityResponse.coord.lat;
+        var longitude = cityResponse.coord.lon;
+        var latitude = cityResponse.coord.lat;
 
         // resetting current weather info for new data
         featuredCityContainer.textContent = '';
@@ -70,22 +70,22 @@ let weatherInfo = function(citySearched) {
         currentWeatherIcon.textContent = '';
 
         // display name of city
-        let cityName = document.createElement('h3');
+        var cityName = document.createElement('h3');
         cityName.textContent = cityResponse.name;
         cityName.style.margin = '10px 0 0 30px'
         cityName.style.fontWeight = 'bold';
         displayedCity.appendChild(cityName);
 
         // display date
-        let displayDate = document.createElement('h3');
+        var displayDate = document.createElement('h3');
         displayDate.textContent = moment().format('M/DD/YYYY');
         displayDate.style.margin = '10px 0 0 10px';
         displayDate.style.fontWeight = 'bold';
         displayedCity.appendChild(displayDate);
 
         // display icon
-        let currentIcon = document.createElement('img');
-        let weatherIcon = cityResponse.weather[0].icon;
+        var currentIcon = document.createElement('img');
+        var weatherIcon = cityResponse.weather[0].icon;
         currentIcon.setAttribute('src', 'https://openweathermap.org/img/wn/' + weatherIcon + '@2x.png');
         currentWeatherIcon.append(currentIcon);
 
@@ -110,27 +110,27 @@ let weatherInfo = function(citySearched) {
 const displayWeather = function (cityWeather) {
 
     // temperature
-    let temperature = document.createElement('p');
+    var temperature = document.createElement('p');
     temperature.innerHTML = '<strong>Temperature: </strong>' + cityWeather.list[0].main.temp + ' °F';
     temperature.style.margin = '0 0 5px 15px'
     featuredCityContainer.appendChild(temperature);
 
     // humidity
-    let humidity = document.createElement('p');
+    var humidity = document.createElement('p');
     humidity.innerHTML =  '<strong>Humidity: </strong>' + cityWeather.list[0].main.humidity + ' %';
     humidity.style.margin = '0 0 5px 15px'
     featuredCityContainer.appendChild(humidity);
 
     // wind
-    let wind = document.createElement('p');
+    var wind = document.createElement('p');
     wind.innerHTML =  '<strong>Wind: </strong>' + cityWeather.list[0].wind.speed + ' MPH';
     wind.style.margin = '0 0 5px 15px'
     featuredCityContainer.appendChild(wind);
 
     // redeclaring coordinates to fetch the UV Index data
-    let uvLat = cityWeather.city.coord.lat;
-    let uvLon = cityWeather.city.coord.lon;
-    let UVindexAPI = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + uvLat + '&lon=' + uvLon + '&APPID=d277d11a67875138e278bf921f539c35';
+    var uvLat = cityWeather.city.coord.lat;
+    var uvLon = cityWeather.city.coord.lon;
+    var UVindexAPI = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + uvLat + '&lon=' + uvLon + '&APPID=d277d11a67875138e278bf921f539c35';
    
     fetch(UVindexAPI)
     .then(function(response){
@@ -178,7 +178,7 @@ const displayWeather = function (cityWeather) {
 
 
         // creates a container for all elements to display
-        let container = document.createElement('div');
+        var container = document.createElement('div');
         container.style.border = '2px solid black';
         container.style.borderRadius = '5px';
         container.style.margin = '10px';
@@ -216,7 +216,7 @@ const displayWeather = function (cityWeather) {
 
 
 // show history of searched cities
-let showHistory = function() {
+var showHistory = function() {
     // referencing the array created at the beginning 
     searchHistory = JSON.parse(localStorage.getItem('weather-search'));
    
@@ -225,7 +225,7 @@ let showHistory = function() {
         
         // Creating buttons for the search history 
         for (let i = 0; i < searchHistory.length; i++) {
-            let searchHistoryBtn = document.createElement('button');
+            var searchHistoryBtn = document.createElement('button');
             searchHistoryBtn.classList.add('search-history-buttons');
             searchHistoryBtn.setAttribute('data-city', searchHistory[i]);
             searchHistoryBtn.textContent = searchHistory[i];
@@ -237,7 +237,7 @@ let showHistory = function() {
 
 
 // if a button in search history is clicked, the weather of that city will display from the local storage
-let historyButtonSearch = function (event) {
+var historyButtonSearch = function (event) {
     // retrieving the data attribute created at the beginning (the city name will be the attribute)
     let cityHistory = event.target.getAttribute('data-city');
     // if the city in the search history is clicked (which is saved in the data-attribute) it will display it's weather info back onto the page
@@ -251,4 +251,4 @@ cityForm.addEventListener('submit', formSubmitHandler);
 // when a previously searched city's button is clicked on, will call the historyButtonSearch function
 searchHistoryList.addEventListener('click', historyButtonSearch);
 // calls showHistory function
-showHistory();
+// showHistory();
