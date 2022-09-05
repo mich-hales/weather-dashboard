@@ -7,8 +7,6 @@ var searchHistoryList = document.querySelector('.search-history');
 var cityForm = document.querySelector('#city-form');
 var fiveDayForecastContainer = document.querySelector('.five-day-forecast-container');
 
-
-
 // array for search history
 var searchHistory = [];
 console.log(searchHistory)
@@ -251,4 +249,4 @@ cityForm.addEventListener('submit', formSubmitHandler);
 // when a previously searched city's button is clicked on, will call the historyButtonSearch function
 searchHistoryList.addEventListener('click', historyButtonSearch);
 // calls showHistory function
-showHistory();
+// showHistory();
