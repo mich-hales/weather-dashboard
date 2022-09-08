@@ -9,7 +9,6 @@ const fiveDayForecastContainer = document.querySelector('.five-day-forecast-cont
 
 // array for search history
 let searchHistory = [];
-console.log(searchHistory)
 
 // save search history 
 const formSubmitHandler = function (event) {
@@ -17,7 +16,6 @@ const formSubmitHandler = function (event) {
 
     // the user input / searched city
     let citySearched = cityInputEl.value.trim();
-    console.log(citySearched)
 
     // local storage
     if (citySearched) {
@@ -49,13 +47,10 @@ const containerFeaturedForecast = document.querySelector('.five-day-forecast');
 const weatherInfo = function(citySearched) {
     const apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + citySearched + '&units=imperial&appid=300ba1bc4c70b9982f60158a745b8368'
 
-    console.log(apiUrl);
-
     fetch(apiUrl).then(function (cityResponse) {
         return cityResponse.json()
     })
     .then(function (cityResponse) {
-        console.log(cityResponse)
     
         // longitude and latitude coordinates of the city searched
         let longitude = cityResponse.coord.lon;
@@ -98,7 +93,6 @@ const weatherInfo = function(citySearched) {
         return response.json();
     })
     .then(function(response) {
-        console.log(response);
         // calls the displayWeather function to display content
         displayWeather(response);
     })
@@ -159,11 +153,8 @@ const displayWeather = function (cityWeather) {
         uvResult.appendChild(spanUvi);
     })
 
-    
-
 
     let dailyForecast = cityWeather.list;
-    console.log(dailyForecast);
 
     // 5 day forecast
     for (let i = 0; i < dailyForecast.length; i = i + 8) {
