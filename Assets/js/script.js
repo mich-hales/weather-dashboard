@@ -204,7 +204,7 @@ const showHistory = function() {
     searchHistory = JSON.parse(localStorage.getItem('weather-search'));
 
     if (searchHistory.length > 0) {
-        // searchHistory = JSON.parse(localStorage.getItem('weather-search'));
+        searchHistory = JSON.parse(localStorage.getItem('weather-search'));
         
         // Creating buttons for the search history 
         for (let i = 0; i < searchHistory.length; i++) {
