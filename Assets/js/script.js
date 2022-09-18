@@ -38,7 +38,6 @@ const formSubmitHandler = function (event) {
     }
 }
 
-
 const currentWeatherIcon = document.querySelector('#featured-weather-icon');
 const displayedCity = document.querySelector('.featured-city-header')
 const containerFeaturedCity = document.querySelector('.featured-city');
@@ -151,8 +150,7 @@ const displayWeather = function (cityWeather) {
         spanUvi.style.borderRadius = '5px';
         featuredCityContainer.appendChild(uvResult);
         uvResult.appendChild(spanUvi);
-    })
-
+    });
 
     let dailyForecast = cityWeather.list;
 
@@ -165,7 +163,6 @@ const displayWeather = function (cityWeather) {
         let fiveDayWind = dailyForecast[i].wind.speed;
         let fiveDayHumidity = dailyForecast[i].main.humidity;
 
-
         // creates a container for all elements to display
         let container = document.createElement('div');
         container.style.border = '2px solid black';
@@ -173,7 +170,6 @@ const displayWeather = function (cityWeather) {
         container.style.margin = '10px';
         container.style.backgroundColor = 'rgb(227, 244, 254)'
         fiveDayForecastContainer.appendChild(container);
-        
 
         // creates the date element and appends to page
         let dateEl = document.createElement('h6');
@@ -203,11 +199,12 @@ const displayWeather = function (cityWeather) {
     }  
 }
 
-
 // show history of searched cities
 const showHistory = function() {
+    searchHistory = JSON.parse(localStorage.getItem('weather-search'));
+
     if (searchHistory.length > 0) {
-        searchHistory = JSON.parse(localStorage.getItem('weather-search'));
+        // searchHistory = JSON.parse(localStorage.getItem('weather-search'));
         
         // Creating buttons for the search history 
         for (let i = 0; i < searchHistory.length; i++) {
@@ -220,7 +217,6 @@ const showHistory = function() {
         }
     }
 }
-
 
 // if a button in search history is clicked, the weather of that city will display from the local storage
 const historyButtonSearch = function (event) {
