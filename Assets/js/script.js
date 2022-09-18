@@ -206,10 +206,7 @@ const displayWeather = function (cityWeather) {
 
 // show history of searched cities
 const showHistory = function() {
-    // referencing the array created at the beginning 
-    searchHistory = JSON.parse(localStorage.getItem('weather-search'));
-   
-    if (searchHistory) {
+    if (searchHistory.length > 0) {
         searchHistory = JSON.parse(localStorage.getItem('weather-search'));
         
         // Creating buttons for the search history 
