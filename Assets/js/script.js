@@ -22,6 +22,7 @@ const formSubmitHandler = function (event) {
         searchHistory.push(citySearched);
      
         localStorage.setItem('weather-search', JSON.stringify(searchHistory));
+
         let searchHistoryBtn = document.createElement('button');
         searchHistoryBtn.classList.add('search-history-buttons');
         searchHistoryBtn.setAttribute('data-city', citySearched);
@@ -200,13 +201,10 @@ const displayWeather = function (cityWeather) {
 }
 
 // show history of searched cities
-const showHistory = function() {
-    searchHistory = JSON.parse(localStorage.getItem('weather-search'));
-
-    if (searchHistory.length > 0) {
+const showHistory = function() { 
+    if(localStorage.getItem('weather-search') !== null) {
         searchHistory = JSON.parse(localStorage.getItem('weather-search'));
-        
-        // Creating buttons for the search history 
+
         for (let i = 0; i < searchHistory.length; i++) {
             let searchHistoryBtn = document.createElement('button');
             searchHistoryBtn.classList.add('search-history-buttons');
@@ -232,5 +230,5 @@ const historyButtonSearch = function (event) {
 cityForm.addEventListener('submit', formSubmitHandler);
 // when a previously searched city's button is clicked on, will call the historyButtonSearch function
 searchHistoryList.addEventListener('click', historyButtonSearch);
-// calls showHistory function
+// calls showhistory function
 showHistory();
